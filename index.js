@@ -35,6 +35,12 @@ const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster
         const result = await cartCollection.insertOne(cartItem);
         res.send(result);
       })
+      app.get('/carts', async (req, res) => {
+        const email = req.query.email;
+        const query = { email: email };
+        const result = await cartCollection.find(query).toArray();
+        res.send(result);
+      });
   
       app.get('/menu', async(req, res) =>{
           const result = await menuCollection.find().toArray();
