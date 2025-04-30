@@ -27,6 +27,14 @@ const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster
   
       const menuCollection = client.db("bistroDb").collection("menu");
       const reviewCollection = client.db("bistroDb").collection("reviews");
+      const cartCollection = client.db("bistroDb").collection("carts");
+
+       // carts collection
+     app.post('/carts', async (req, res) => {
+        const cartItem = req.body;
+        const result = await cartCollection.insertOne(cartItem);
+        res.send(result);
+      })
   
       app.get('/menu', async(req, res) =>{
           const result = await menuCollection.find().toArray();
