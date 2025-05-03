@@ -48,6 +48,25 @@ const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster
         const result = await userCollection.find().toArray();
         res.send(result);
       });
+      app.patch('/users/admin/:id', async (req, res) => {
+        const id = req.params.id;
+        const filter = { _id: new ObjectId(id) };
+        const updatedDoc = {
+          $set: {
+            role: 'admin'
+          }
+        }
+        const result = await userCollection.updateOne(filter, updatedDoc);
+        res.send(result);
+      })
+  
+      app.delete('/users/:id', async (req, res) => {
+        const id = req.params.id;
+        const query = { _id: new ObjectId(id) }
+        const result = await userCollection.deleteOne(query);
+        res.send(result);
+      })
+  
 
        // carts collection
      app.post('/carts', async (req, res) => {
